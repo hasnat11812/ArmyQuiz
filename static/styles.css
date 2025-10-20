@@ -12,28 +12,24 @@
 :root{
 	--bg: #0f1410; /* deep green/near-black */
 	--panel: #17251a; /* darker panel */
-	--muted: #9aa29a; 
+	--muted: #9aa29a;
 	--accent: #2e8b57; /* leafy green */
-	--accent-2: #4bbf73; 
+	--accent-2: #4bbf73;
 	--danger: #e14a3b;
 	--glass: rgba(255,255,255,0.04);
-
-	.central-logo {
-		display: inline-block;
-		width: 140px;
-		height: 64px;
-		position: relative;
-		z-index: 40;
-	}
-
-	/* small variation for compact headers */
-	.central-logo.small-logo {
-		width: 98px;
-		height: 44px;
-	}
-	.no-print{display:none}
-	main.container{padding:0}
+	--text: #e6f6ea; /* readable primary text */
+	--muted-2: rgba(230,246,234,0.72);
+	--max-width: 1100px;
+	--card-radius: 12px;
 }
+/* dont change logo style */
+.central-logo.small-logo {
+    width: 20px;
+    height: 20px;
+}
+
+.no-print{display:none}
+main.container{padding:0}
 
 /* Accessibility: higher contrast focus states for keyboard users */
 button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:3px solid rgba(75,191,115,0.18);outline-offset:2px}
@@ -83,12 +79,20 @@ main.container{padding-top:28px;padding-bottom:80px}
 .navbar .user-menu{margin-left:auto;display:flex;align-items:center;gap:8px}
 
 /* Cards */
-.card{background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));border-radius:var(--card-radius);padding:18px;margin-bottom:18px;box-shadow:0 6px 18px rgba(2,8,2,0.6);border:1px solid rgba(255,255,255,0.03)}
-.card h2{margin:4px 0 12px;font-size:1.25rem}
+.card{
+	background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.02));
+	border-radius: var(--card-radius);
+	padding: 18px;
+	margin-bottom: 18px;
+	box-shadow: 0 10px 28px rgba(0,0,0,0.6);
+	border: 1px solid rgba(255,255,255,0.06);
+	color: var(--text);
+}
+.card h2{margin:4px 0 12px;font-size:1.25rem;color:var(--text)}
 
 /* Buttons */
 .btn{display:inline-flex;align-items:center;gap:8px;padding:8px 12px;border-radius:8px;border:1px solid transparent;background:var(--glass);color:var(--text);cursor:pointer}
-.btn.primary{background:linear-gradient(180deg,var(--accent),var(--accent-2));color:#06220f;border-color:rgba(0,0,0,0.25);font-weight:600}
+.btn.primary{background:linear-gradient(180deg,var(--accent),var(--accent-2));color:#06220f;border-color:rgba(0,0,0,0.35);font-weight:700;box-shadow:0 8px 18px rgba(46,139,87,0.12)}
 .btn.ghost{background:transparent;border:1px solid rgba(255,255,255,0.06)}
 .btn.outline{background:transparent;border:1px solid rgba(255,255,255,0.06)}
 .btn.small{padding:6px 10px;font-size:0.9rem}
@@ -128,16 +132,12 @@ table tbody td{padding:10px;border-bottom:1px dashed rgba(255,255,255,0.03)}
 .central-logo.loading .loader .bar{width:58%}
 .central-logo.complete .loader .bar{width:100%;transition:width .5s cubic-bezier(.2,.9,.2,1)}
 
-/* sizing adjustments for header small logo */
-.central-logo.small-logo{width:40px;height:40px;background-size:contain;border-radius:8px}
-.central-logo.small-logo .loader{left:6px;right:6px;bottom:6px;height:6px;border-radius:4px}
-.central-logo.small-logo .loader .bar{box-shadow:none}
 
 /* Accessibility helpers */
 .score-badge{background:rgba(75,191,115,0.12);color:var(--accent-2);padding:6px 8px;border-radius:20px;font-weight:600}
 
 /* Footer */
-.site-footer{background:linear-gradient(180deg,#0c170d,var(--panel));padding:18px;color:var(--muted)}
+.site-footer{background:linear-gradient(180deg,#07100b,var(--panel));padding:18px;color:var(--muted-2);border-top:1px solid rgba(255,255,255,0.03)}
 
 /* print styles */
 @media print{
@@ -158,7 +158,7 @@ table tbody td{padding:10px;border-bottom:1px dashed rgba(255,255,255,0.03)}
 /* --- Additional component & utility styles for modern "Army" quiz UI --- */
 
 /* Hero / Landing */
-.hero{padding:48px 18px;background:linear-gradient(180deg, rgba(75,191,115,0.04), rgba(0,0,0,0));border-radius:12px;margin-bottom:18px}
+.hero{padding:48px 18px; background: linear-gradient(81deg, rgb(75 191 115 / 19%), rgb(0 0 0 / 25%));  border-radius:12px;margin-bottom:18px}
 .hero h1{font-size:2rem;margin:0 0 8px}
 .hero p{color:var(--muted);max-width:720px}
 
@@ -386,13 +386,6 @@ table.striped tbody tr:nth-child(odd){background:rgba(255,255,255,0.01)}
 .nav{margin-left:auto;display:flex;align-items:center;gap:10px}
 .nav-item{padding:6px 8px;border-radius:6px}
 
-/* size variant for header logo */
-.central-logo.small-logo {
-    width: 17px;
-    height: 18px;
-    background-size: cover;
-    border-radius: 5px;
-}
 
 @media (max-width:720px){
 	.container.header-inner{padding:8px 12px}
@@ -490,10 +483,3 @@ pre{padding:12px}
 .collapse{overflow:hidden;transition:height .18s ease}
 
 /* End Phase 4 */
-
-
-
-
-
-
-
