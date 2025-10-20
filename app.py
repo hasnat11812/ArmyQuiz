@@ -5,8 +5,11 @@ import random, string, json, os
 from datetime import datetime, timedelta
 
 app = Flask(__name__)
-app.secret_key = "secret123"
-app.config['SQLALCHEMY_DATABASE_URI'] = "sqlite:///quiz.db"
+# Use environment variables for deployment (Render.com sets DATABASE_URL and you
+# should set SECRET_KEY in the Render dashboard). Fall back to sensible dev
+# defaults for local development.
+app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', os.environ.get('FLASK_SECRET', 'dev-secret'))
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL', 'sqlite:///quiz.db')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 
@@ -54,7 +57,12 @@ def generate_code(length=6):
 
 def current_user():
     if 'user_id' in session:
-        return User.query.get(session['user_id'])
+        # Use session.get via the session-aware API to avoid legacy Query.get()
+        try:
+            return db.session.get(User, session['user_id'])
+        except Exception:
+            # fallback to previous approach if session.get isn't available
+            return User.query.get(session['user_id'])
     return None
 
 
