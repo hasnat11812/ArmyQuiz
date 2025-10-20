@@ -8,11 +8,15 @@
         <form method="POST">
             <div class="form-row">
                 <label for="room_name">Room Name</label>
-                <input type="text" id="room_name" name="room_name" placeholder="Math 101" required>
+                <input type="text" id="room_name" name="name" placeholder="Math 101" required>
             </div>
             <div class="form-row">
-                <label for="quiz_title">Quiz Title</label>
-                <input type="text" id="quiz_title" name="quiz_title" placeholder="Algebra Quiz" required>
+                <label for="code">Room Code (optional)</label>
+                <input type="text" id="code" name="code" placeholder="ABC123 (optional)">
+            </div>
+            <div class="form-row">
+                <label for="quiz_title">Quiz Title (optional)</label>
+                <input type="text" id="quiz_title" name="quiz_title" placeholder="Algebra Quiz">
             </div>
             <div class="form-actions">
                 <button type="submit" class="btn btn-primary">Create Room</button>

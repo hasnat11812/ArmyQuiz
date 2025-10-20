@@ -8,9 +8,9 @@
     <p>Score: <strong>{{ score }} / {{ total }}</strong></p>
     <div style="display:flex;gap:8px;justify-content:flex-end;margin-bottom:8px">
       {% if current_user and (current_user.role=='teacher' or (current_user.role=='student' and current_user.id==student.id) or room.allow_download) %}
-        <a class="btn outline" href="{{ url_for('student_sheet_pdf', room_id=room.id, student_id=student.id) }}">Download PDF</a>
+        <a class="btn outline" href="/room/{{ room.id }}/student/{{ student.id }}/pdf">Download PDF</a>
       {% else %}
-        <a class="btn outline" href="{{ url_for('student_sheet_print', room_id=room.id, student_id=student.id) }}" target="_blank">Print / Export PDF</a>
+        <a class="btn outline" href="/room/{{ room.id }}/student/{{ student.id }}/print" target="_blank">Print / Export PDF</a>
       {% endif %}
       <a class="btn ghost" href="{{ back_url }}">Back</a>
     </div>
@@ -41,7 +41,7 @@
     {% endfor %}
 
     <div class="form-actions" style="margin-top:12px">
-      <a class="btn outline" href="{{ url_for('teacher_dashboard', room_id=room.id) }}">Back</a>
+      <a class="btn outline" href="/teacher/dashboard/{{ room.id }}">Back</a>
     </div>
   </div>
 </section>

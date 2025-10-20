@@ -2,40 +2,50 @@
 
 {% block content %}
 <div class="container student-dashboard">
-    <div class="fade-in">
-        <h2 class="animated-text">Welcome, {{ user.name }}!</h2>
-
-        <div class="card-container">
-            <a href="{{ url_for('join_room') }}" class="card glow-card hover-glow" data-aos="fade-up">
-                <h3>Join Room</h3>
+    <div class="hero-card fade-in">
+        <h1>Welcome, {{ user.name }}!</h1>
+        <p class="muted">Quick actions to get you started. Join a room or view your past quizzes.</p>
+        <div class="actions-grid">
+            <a href="{{ url_for('join_room') }}" class="action-btn">
+                <div class="icon">🔗</div>
+                <div class="label">Join Room</div>
             </a>
-            <a href="{{ url_for('student_result', room_id=0) }}" class="card glow-card hover-glow" data-aos="fade-up" data-aos-delay="100">
-                <h3>My Results</h3>
+            <a href="{{ url_for('student_results_overview') }}" class="action-btn">
+                <div class="icon">📊</div>
+                <div class="label">My Results</div>
             </a>
-            <a href="{{ url_for('index') }}" class="card glow-card hover-glow" data-aos="fade-up" data-aos-delay="200">
-                <h3>Explore</h3>
+            <a href="{{ url_for('index') }}" class="action-btn">
+                <div class="icon">🔎</div>
+                <div class="label">Explore</div>
             </a>
         </div>
-
-        {% if rooms %}
-        <div class="card mt-2">
-            <h3>Your Rooms</h3>
-            <div class="student-list">
-                {% for r in rooms %}
-                <div class="student-row">
-                    <div>
-                        <strong>{{ r.name }}</strong>
-                        <div class="small muted">Code: {{ r.code }}</div>
-                    </div>
-                    <div class="controls">
-                        <a href="{{ url_for('teacher_room', room_id=r.id) }}" class="btn small">Open</a>
-                    </div>
-                </div>
-                {% endfor %}
-            </div>
-        </div>
-        {% endif %}
-
     </div>
+
+    {% if rooms and rooms|length > 0 %}
+    <section class="rooms-section">
+        <h2>Your Rooms</h2>
+        <div class="rooms-grid">
+            {% for r in rooms %}
+            <article class="room-card">
+                <div class="room-head">
+                    <strong class="room-name">{{ r.name }}</strong>
+                    <div class="room-code">Code: <code>{{ r.code }}</code></div>
+                </div>
+                <div class="room-actions">
+                    <a href="{{ url_for('teacher_room', room_id=r.id) }}" class="btn">Open</a>
+                    {% if r.is_active %}
+                    <span class="badge green">Active</span>
+                    {% else %}
+                    <span class="badge">Closed</span>
+                    {% endif %}
+                </div>
+            </article>
+            {% endfor %}
+        </div>
+    </section>
+    {% else %}
+    <div class="centered muted">You haven't joined any rooms yet. Use Join Room to get started.</div>
+    {% endif %}
+
 </div>
 {% endblock %}

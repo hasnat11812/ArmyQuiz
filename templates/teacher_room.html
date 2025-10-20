@@ -10,10 +10,20 @@
         {% if room.quiz_id %}
             <p>Quiz uploaded.</p>
             {% if not room.quiz_start_time %}
-                <a href="{{ url_for('start_quiz', room_id=room.id) }}" class="btn primary">Start Quiz</a>
+                <form method="POST" action="{{ url_for('start_quiz_post', room_id=room.id) }}" style="display:inline">
+                    <input type="number" name="minutes" value="10" min="1" max="180" style="width:72px;padding:4px;margin-right:6px;" title="Duration (minutes)">
+                    <button class="btn primary" type="submit">Start Quiz</button>
+                </form>
             {% else %}
                 <span class="timer">Quiz in progress</span>
+                <form method="POST" action="{{ url_for('extend_quiz_post', room_id=room.id) }}" style="display:inline;margin-left:8px">
+                    <input type="number" name="minutes" value="5" min="1" max="60" style="width:64px;padding:4px;margin-right:6px;">
+                    <button class="btn" type="submit">Extend</button>
+                </form>
             {% endif %}
+            <form method="POST" action="{{ url_for('close_room_post', room_id=room.id) }}" style="display:inline;margin-left:8px" class="close-room-form" data-room-name="{{ room.name }}">
+                <button class="btn btn.danger" type="submit">Close Room</button>
+            </form>
         {% else %}
             <a href="{{ url_for('create_quiz', room_id=room.id) }}" class="btn primary">Upload Quiz</a>
         {% endif %}

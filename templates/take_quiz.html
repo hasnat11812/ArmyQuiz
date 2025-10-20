@@ -9,15 +9,15 @@
     </div>
 
     <form method="POST">
-        {% for i, q in enumerate(quiz.questions) %}
-        <div class="question-card glow-card" data-aos="fade-up" data-aos-delay="{{ i*50 }}">
-            <div class="q-num">Q{{ i+1 }}:</div>
+        {% for q in questions %}
+        <div class="question-card glow-card" data-aos="fade-up" data-aos-delay="{{ loop.index0 * 50 }}">
+            <div class="q-num">Q{{ loop.index }}:</div>
             <div class="q-text">{{ q.text }}</div>
             <div class="options">
-                {% for opt in q.options %}
+                {% for opt_text in q.options %}
                 <label class="option hover-glow">
-                    <input type="radio" name="q{{ i }}" value="{{ opt }}" required>
-                    <span class="option-text">{{ opt }}</span>
+                    <input type="radio" name="q{{ loop.index0 }}" value="{{ loop.index0 }}" required>
+                    <span class="option-text">{{ opt_text }}</span>
                 </label>
                 {% endfor %}
             </div>

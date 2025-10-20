@@ -36,6 +36,40 @@
             </a>
         </div>
 
+        <div class="card mt-3">
+            <h3>Your Rooms</h3>
+            <div class="student-list">
+                {% for r in rooms %}
+                <div class="student-row">
+                    <div>
+                        <strong>{{ r.name }}</strong>
+                        <div class="small muted">Code: {{ r.code }} — {% if r.is_active %}Active{% else %}Closed{% endif %}</div>
+                    </div>
+                    <div class="controls">
+                        <a class="btn" href="{{ url_for('teacher_room', room_id=r.id) }}">Open</a>
+                        {% if r.is_active %}
+                        <form method="POST" action="{{ url_for('start_quiz_post', room_id=r.id) }}" style="display:inline;margin-left:8px">
+                            <input type="number" name="minutes" value="5" min="1" max="180" style="width:64px;padding:4px;margin-right:6px;" title="Duration (minutes)">
+                            <button class="btn" type="submit">Start Quiz</button>
+                        </form>
+
+                        <form method="POST" action="{{ url_for('extend_quiz_post', room_id=r.id) }}" style="display:inline;margin-left:8px">
+                            <input type="number" name="minutes" value="5" min="1" max="120" style="width:64px;padding:4px;margin-right:6px;" title="Extra minutes">
+                            <button class="btn" type="submit">Extend</button>
+                        </form>
+
+                        <form method="POST" action="{{ url_for('close_room_post', room_id=r.id) }}" style="display:inline;margin-left:8px" class="close-room-form" data-room-name="{{ r.name }}">
+                            <button class="btn btn.danger" type="submit">Close Room</button>
+                        </form>
+                        {% else %}
+                        <span class="muted">Closed</span>
+                        {% endif %}
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+
         {% if students %}
         <div class="card mt-2">
             <h3>Students</h3>

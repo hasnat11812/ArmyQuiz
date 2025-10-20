@@ -7,6 +7,8 @@
             <th>Name</th>
             <th>Roll</th>
             <th>Score</th>
+            <th>Sheet</th>
+            <th>Saved</th>
         </tr>
     </thead>
     <tbody>
@@ -15,6 +17,21 @@
             <td>{{ s.name }}</td>
             <td>{{ s.roll }}</td>
             <td>{{ s.score }}</td>
+                                    <td>
+                                        {% if s.has_sheet %}
+                                            <a class="btn small" href="{{ url_for('student_sheet', room_id=room.id, student_id=s.id) }}">View</a>
+                                            <a class="btn small ghost" href="{{ url_for('student_sheet_print', room_id=room.id, student_id=s.id) }}">Print</a>
+                                        {% else %}
+                                            <span class="muted">No sheet</span>
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        {% if s.created_at %}
+                                            {{ s.created_at.strftime('%Y-%m-%d %H:%M') }}
+                                        {% else %}
+                                            <span class="muted">-</span>
+                                        {% endif %}
+                                    </td>
         </tr>
         {% endfor %}
     </tbody>

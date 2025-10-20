@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container">
+  <div class="fade-in">
+    <h2>Available Quizzes</h2>
+    {% if quizzes %}
+      <div class="card">
+        <table>
+          <thead>
+            <tr><th>ID</th><th>Title</th><th>Questions</th><th>Duration</th></tr>
+          </thead>
+          <tbody>
+            {% for q in quizzes %}
+              <tr>
+                <td>{{ q.id }}</td>
+                <td>{{ q.title }}</td>
+                <td>{{ (q.questions_json and (q.questions_json|length)) or 0 }}</td>
+                <td>{{ q.duration }} min</td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    {% else %}
+      <p>No quizzes uploaded yet.</p>
+    {% endif %}
+  </div>
+</div>
+{% endblock %}

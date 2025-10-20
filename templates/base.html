@@ -14,7 +14,31 @@
                 <a class="brand" href="{{ url_for('index') }}">Army Quiz</a>
                 <div class="central-logo small-logo" aria-hidden="true"></div>
             </div>
-            <nav class="nav">
+            <div style="display:flex;align-items:center;gap:10px">
+                <div class="theme-toggle" title="Toggle day / night" aria-label="Toggle theme">
+                    <button id="theme-toggle-btn" class="toggle" aria-pressed="false">
+                        <!-- sun icon (visible in light theme) -->
+                        <svg class="icon icon-sun" width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                            <circle cx="12" cy="12" r="4" fill="currentColor" />
+                            <g stroke="currentColor" stroke-width="2">
+                                <path d="M12 2v2"/>
+                                <path d="M12 20v2"/>
+                                <path d="M4.2 4.2l1.4 1.4"/>
+                                <path d="M18.4 18.4l1.4 1.4"/>
+                                <path d="M2 12h2"/>
+                                <path d="M20 12h2"/>
+                                <path d="M4.2 19.8l1.4-1.4"/>
+                                <path d="M18.4 5.6l1.4-1.4"/>
+                            </g>
+                        </svg>
+                        <!-- moon icon (visible in dark theme) -->
+                        <svg class="icon icon-moon" width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                            <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z" fill="currentColor"/>
+                        </svg>
+                        <span class="knob" aria-hidden="true"></span>
+                    </button>
+                </div>
+                <nav class="nav">
                 {% if user %}
                     <span class="nav-item">{{ user.name }} ({{ user.role }})</span>
                     <a class="nav-item" href="{{ url_for('logout') }}">Logout</a>
@@ -23,8 +47,99 @@
                     <a class="nav-item" href="{{ url_for('register') }}">Register</a>
                 {% endif %}
             </nav>
+            </div>
         </div>
     </header>
+
+    {# Teacher navbar: shows additional quick links and is mobile-friendly #}
+    {% if user and user.role == 'teacher' %}
+    <nav class="teacher-nav" aria-label="Teacher navigation">
+        <div class="container header-inner" style="align-items:center;gap:12px;">
+            <button class="hamburger teacher-hamburger" aria-label="Toggle menu" aria-expanded="false">
+                <span class="bar"></span>
+            </button>
+            <div class="teacher-menu">
+                <a class="nav-item" href="{{ url_for('teacher_dashboard') }}" data-tooltip="Dashboard">
+                    <!-- dashboard icon -->
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="3" y="3" width="8" height="8" rx="1" fill="currentColor"/><rect x="13" y="3" width="8" height="4" rx="1" fill="currentColor"/><rect x="13" y="11" width="8" height="10" rx="1" fill="currentColor"/></svg>
+                    <span class="label">Dashboard</span>
+                </a>
+                <a class="nav-item" href="{{ url_for('create_room') }}" data-tooltip="Create Room">
+                    <!-- plus icon -->
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M11 11V5h2v6h6v2h-6v6h-2v-6H5v-2h6z" fill="currentColor"/></svg>
+                    <span class="label">Create Room</span>
+                </a>
+                <a class="nav-item" href="{{ url_for('view_quizzes') }}" data-tooltip="Quizzes">
+                    <!-- list icon -->
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="4" y="5" width="16" height="2" rx="1" fill="currentColor"/><rect x="4" y="11" width="16" height="2" rx="1" fill="currentColor"/><rect x="4" y="17" width="10" height="2" rx="1" fill="currentColor"/></svg>
+                    <span class="label">Quizzes</span>
+                </a>
+                <a class="nav-item" href="{{ url_for('teacher_dashboard') }}#rooms" data-tooltip="Active Rooms">
+                    <!-- rooms icon -->
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M3 13h8V3H3v10zm10 8h8v-6h-8v6zM3 21h8v-6H3v6z" fill="currentColor"/></svg>
+                    <span class="label">Rooms</span>
+                </a>
+                <a class="nav-item" href="{{ url_for('room_report', room_id=rooms[0].id) if rooms else url_for('teacher_dashboard') }}" data-tooltip="Reports">
+                    <!-- report icon -->
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M3 3h18v18H3V3zm5 14h2V8H8v9zM11 17h2V5h-2v12zM15 17h2v-6h-2v6z" fill="currentColor"/></svg>
+                    <span class="label">Reports</span>
+                </a>
+            </div>
+            <div style="margin-left:auto;display:flex;gap:8px;align-items:center">
+                <a class="nav-item" href="{{ url_for('teacher_dashboard') }}">My Dashboard</a>
+                <a class="nav-item" href="{{ url_for('logout') }}">Logout</a>
+            </div>
+        </div>
+    </nav>
+    {% endif %}
+        </div>
+    </header>
+
+    <!-- Mobile drawer (shared for students and teachers) -->
+    <div class="drawer-backdrop hidden" id="drawer-backdrop" tabindex="-1"></div>
+    <aside class="mobile-drawer hidden" id="mobile-drawer" aria-hidden="true">
+        <div class="drawer-header">
+            <div class="brand">Army Quiz</div>
+            <button id="drawer-close" class="hamburger" aria-label="Close menu">
+                <span class="bar"></span>
+            </button>
+        </div>
+        <nav class="drawer-nav">
+            {% if user and user.role == 'teacher' %}
+                <a class="nav-item" href="{{ url_for('teacher_dashboard') }}">Dashboard</a>
+                <a class="nav-item" href="{{ url_for('create_room') }}">Create Room</a>
+                <a class="nav-item" href="{{ url_for('view_quizzes') }}">Quizzes</a>
+                <a class="nav-item" href="{{ url_for('view_results') }}">Reports</a>
+            {% elif user and user.role == 'student' %}
+                <a class="nav-item" href="{{ url_for('student_dashboard') }}">Dashboard</a>
+                <a class="nav-item" href="{{ url_for('join_room') }}">Join Room</a>
+                <a class="nav-item" href="{{ url_for('student_results_overview') }}">My Results</a>
+            {% endif %}
+            <hr>
+            {% if user %}
+                <a class="nav-item" href="{{ url_for('logout') }}">Logout</a>
+            {% else %}
+                <a class="nav-item" href="{{ url_for('login') }}">Login</a>
+                <a class="nav-item" href="{{ url_for('register') }}">Register</a>
+            {% endif %}
+        </nav>
+    </aside>
+
+    {# Student quick navigation (shows only for logged-in students) #}
+    {% if user and user.role == 'student' %}
+    <nav class="student-topbar" aria-label="Student quick navigation">
+        <div class="container header-inner" style="align-items:center;gap:12px;">
+            <button class="topbar-toggle" aria-expanded="false" aria-label="Toggle student menu">☰</button>
+            <div class="topbar-menu">
+                <a class="nav-item{% if request.path.startswith(url_for('student_dashboard')) %} active{% endif %}" href="{{ url_for('student_dashboard') }}">Dashboard</a>
+                <a class="nav-item{% if request.path.startswith(url_for('join_room')) %} active{% endif %}" href="{{ url_for('join_room') }}">Join Room</a>
+                <a class="nav-item{% if request.path.startswith(url_for('student_results_overview')) %} active{% endif %}" href="{{ url_for('student_results_overview') }}">My Results</a>
+                <a class="nav-item{% if request.path == url_for('index') %} active{% endif %}" href="{{ url_for('index') }}">Explore</a>
+            </div>
+            <a class="nav-item" href="{{ url_for('logout') }}" style="margin-left:auto">Logout</a>
+        </div>
+    </nav>
+    {% endif %}
 
     <main class="container main-content">
         {% with messages = get_flashed_messages(with_categories=true) %}

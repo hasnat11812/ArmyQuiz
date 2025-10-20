@@ -10,7 +10,227 @@
         </div>
         <div class="form-row">
             <label>Questions JSON</label>
-            <textarea name="questions" placeholder='[{"question":"Q1?","options":["A","B","C"],"answer":0}]' required></textarea>
+            <textarea id="questions-json" name="questions" placeholder='[{"question":"Q1?","options":["A","B","C"],"answer":0}]' required></textarea>
+            <div class="form-help">
+                Accepted formats:
+                <ul style="text-align:left;margin:6px 0 0 18px;">
+                    <li>Array of question objects.</li>
+                    <li>options can be an array: <code>["A","B","C"]</code> or a letter-keyed object: <code>{"a":"A","b":"B","c":"C"}</code>.</li>
+                    <li>answer can be a zero-based index (<code>0</code>), a letter (<code>"b"</code>), or the option text (<code>"B"</code>).</li>
+                </ul>
+                <div style="margin-top:8px;display:flex;gap:8px;justify-content:center">
+                    <button id="load-sample-quiz" type="button" class="btn ghost">Load example</button>
+                    <button id="clear-sample-quiz" type="button" class="btn ghost">Clear</button>
+                </div>
+            </div>
+
+            <details style="margin-top:10px;text-align:left;">
+                <summary>Example JSON (click to expand)</summary>
+                <pre id="sample-quiz" style="white-space:pre-wrap;background:var(--panel);padding:12px;border-radius:8px;margin-top:8px;color:var(--text);">
+                [
+                  {
+                      "question": "Where a Military Offr is not available. Who is appointed as Imprest Holder?",
+                      "options": [
+                          "A Civ Gazzetted Offr.",
+                          "MWO.",
+                          "H Clk.",
+                          "None."
+                      ],
+                      "answer": 0
+                  },
+                  {
+                      "question": "CRs will not be rendered by iro cas published in their own part II orders:",
+                      "options": [
+                          "Units.",
+                          "CORO.",
+                          "a and b.",
+                          "None of these."
+                      ],
+                      "answer": 0
+                  },
+                  {
+                      "question": "For change of Imprest holder what particulars will be fwd to FC (Army) Pay-2:",
+                      "options": [
+                          "The official designation of the Imprest Holder.",
+                          "Nature of casualty to the old Imprest holder with date etc.",
+                          "The number of Field Imprest Account.",
+                          "All of above."
+                      ],
+                      "answer": 3
+                  },
+                  {
+                      "question": "Carrying of TOP SECRET/SECRET documents from one place to another outside the office premises in locked boxes or bags by:",
+                      "options": [
+                          "Despatch Rider.",
+                          "Office runner.",
+                          "JCO Clerk.",
+                          "Officers."
+                      ],
+                      "answer": 3
+                  },
+                  {
+                      "question": "Plans or particulars of future major or special operations will be graded as:",
+                      "options": [
+                          "TOP SECRET.",
+                          "SECRET.",
+                          "CONFIDENTIAL.",
+                          "RESTRICTED."
+                      ],
+                      "answer": 0
+                  },
+                  {
+                      "question": "Top Secret files required to be sent out of office will be marked as:",
+                      "options": [
+                          "TOP SECRET.",
+                          "SECRET.",
+                          "'NOT TO GO OUT.",
+                          "RESTRICTED."
+                      ],
+                      "answer": 2
+                  },
+                  {
+                      "question": "Collected subscription from offr/JCO/OR/NC(E) for Army Family Sy Scheme to be deposited by bank draft to:",
+                      "options": [
+                          "W&R Directorate.",
+                          "PA Directorate.",
+                          "PP&A Directorate.",
+                          "None of the above."
+                      ],
+                      "answer": 0
+                  },
+                  {
+                      "question": "Veh auth to be used for unit admin for a maj unit:",
+                      "options": [
+                          "1x Jeep for CO, 1x Jeep for all other offrs, 1 x Pickup for gen admin duties and 1 x 3 Ton for gen admin duties.",
+                          "1x Jeep for CO, 1x Jeep each for every fd offr, 1 x Pickup for all other offr and 1 x 3 Ton for gen admin duties.",
+                          "1x Jeep for CO, 1 x Pickup for all other offr and 1 x 3 Ton for gen admin duties.",
+                          "All of the above."
+                      ],
+                      "answer": 0
+                  },
+                  {
+                      "question": "The claiming procedure of medals and ribbons is pub in:",
+                      "options": [
+                          "Special Bangladesh Army Order.",
+                          "Bangladesh Army Order.",
+                          "Joint Service Instruction.",
+                          "Gazette of Bangladesh."
+                      ],
+                      "answer": 1
+                  },
+                  {
+                      "question": "In maint of accts of ord stores, and ammo stores the con no series of issue and receipt docus are maint on yr basis from:",
+                      "options": [
+                          "01 Jan to 30 Jun.",
+                          "01 Jul to 30 Jun.",
+                          "01 Jan to 31 Dec.",
+                          "None of the above."
+                      ],
+                      "answer": 1
+                  },
+                  {
+                      "question": "When danger money will be admissible?",
+                      "options": [
+                          "Only during pds of actual trg and active emp on such duties.",
+                          "Only during pds of actual trg.",
+                          "Only during pds active emp on such duties.",
+                          "None of these."
+                      ],
+                      "answer": 0
+                  },
+                  {
+                      "question": "If an officer attains two or more qualifications, he will be entitled to:",
+                      "options": [
+                          "Only one rate of qualification pay.",
+                          "Maximum two rate of qualification pay.",
+                          "All rates of qualification pay.",
+                          "None of the above."
+                      ],
+                      "answer": 0
+                  },
+                  {
+                      "question": "How many month granted an ante-date for course of studies abroad?",
+                      "options": [
+                          "Not exceeding six month.",
+                          "Not exceeding three month.",
+                          "Not exceeding two month.",
+                          "None of this."
+                      ],
+                      "answer": 0
+                  },
+                  {
+                      "question": "The kit allowance to officers is payable monthly from:",
+                      "options": [
+                          "Joining Bangladesh Military Academy as cadet.",
+                          "The date of commissioning.",
+                          "On promotion to the Captain rank.",
+                          "On joining the unit."
+                      ],
+                      "answer": 1
+                  },
+                  {
+                      "question": "Kit allowance is admissible to:",
+                      "options": [
+                          "Commissioned officers.",
+                          "JCO holding honorary commission.",
+                          "All of the above.",
+                          "None of the above."
+                      ],
+                      "answer": 2
+                  },
+                  {
+                      "question": "How many months newly raised units and formations may draw their first mess maint allces in advances?",
+                      "options": [
+                          "Four months.",
+                          "Five months.",
+                          "One month.",
+                          "None of these."
+                      ],
+                      "answer": 0
+                  },
+                  {
+                      "question": "Leave Means leave taken for a period not exceeding other than lve preParatory to retirement.",
+                      "options": [
+                          "Four months.",
+                          "Five months.",
+                          "Twelve months.",
+                          "Eighteen months."
+                      ],
+                      "answer": 0
+                  },
+                  {
+                      "question": "When the pay & allces will be is discontinued of an Offr?",
+                      "options": [
+                          "After a Court Marshal of an Offr.",
+                          "After the death of an Offr.",
+                          "Before the death of an Offr .",
+                          "All."
+                      ],
+                      "answer": 1
+                  },
+                  {
+                      "question": "Leave Ration Allowance (LRA) will be drawn in full:",
+                      "options": [
+                          "Before proceeding on leave.",
+                          "After completion of leave.",
+                          "Any one of the above.",
+                          "None of the above."
+                      ],
+                      "answer": 0
+                  },
+                  {
+                      "question": "Daily messing allowance to officers is not admissible when the halt do not exceeds:",
+                      "options": [
+                          "06 hour.",
+                          "12 hour.",
+                          "24 hour.",
+                          "48 hour."
+                      ],
+                      "answer": 0
+                  }
+              ]      
+              </pre>
+            </details>
         </div>
         <div class="form-actions">
             <button type="submit" class="btn primary">Upload</button>

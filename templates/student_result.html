@@ -3,6 +3,9 @@
 <div class="fade-in">
     <h2>Your Result</h2>
     <p>Score: <strong>{{ score }}/{{ total }}</strong></p>
+    {% if sheet %}
+    <p><a class="btn ghost" href="{{ url_for('student_sheet', room_id=room.id, student_id=sheet.student_id) }}">View detailed sheet</a></p>
+    {% endif %}
     <a href="{{ url_for('index') }}" class="btn primary">Back to Home</a>
 </div>
 {% endblock %}

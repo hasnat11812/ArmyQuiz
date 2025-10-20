@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container">
+  <div class="fade-in">
+    <h2>Room Reports</h2>
+    {% if rooms %}
+      <div class="card">
+        <table>
+          <thead>
+            <tr><th>Room</th><th>Code</th><th>Students</th><th>Actions</th></tr>
+          </thead>
+          <tbody>
+            {% for r in rooms %}
+              <tr>
+                <td>{{ r.name }}</td>
+                <td><code>{{ r.code }}</code></td>
+                <td>{{ r.students|length }}</td>
+                <td>
+                  <a class="btn small" href="{{ url_for('room_report', room_id=r.id) }}">Open Report</a>
+                </td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    {% else %}
+      <p>No rooms found.</p>
+    {% endif %}
+  </div>
+</div>
+{% endblock %}
