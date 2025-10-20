@@ -9,14 +9,16 @@
     </div>
 
     <form method="POST">
+        <input type="hidden" name="auto_submit_reason" id="auto_submit_reason" value="">
         {% for q in questions %}
-        <div class="question-card glow-card" data-aos="fade-up" data-aos-delay="{{ loop.index0 * 50 }}">
+        {% set qidx = loop.index0 %}
+        <div class="question-card glow-card" data-aos="fade-up" data-aos-delay="{{ qidx * 50 }}">
             <div class="q-num">Q{{ loop.index }}:</div>
             <div class="q-text">{{ q.text }}</div>
             <div class="options">
                 {% for opt_text in q.options %}
                 <label class="option hover-glow">
-                    <input type="radio" name="q{{ loop.index0 }}" value="{{ loop.index0 }}" required>
+                    <input type="radio" name="q{{ qidx }}" value="{{ loop.index0 }}">
                     <span class="option-text">{{ opt_text }}</span>
                 </label>
                 {% endfor %}
@@ -24,8 +26,111 @@
         </div>
         {% endfor %}
         <div class="form-actions">
-            <button type="submit" class="btn btn-primary hover-glow pulse">Submit Quiz</button>
+            <button type="submit" id="submit-quiz" class="btn btn-primary hover-glow pulse">Submit Quiz</button>
         </div>
     </form>
 </div>
+<script>
+// Countdown timer driven from server-provided `remaining` (seconds).
+(function(){
+    const timerEl = document.getElementById('timer');
+    const form = document.querySelector('form');
+    // Use the remaining value passed from Flask; default to 0 if missing
+    let remaining = {{ remaining|default(0)|int }};
+
+    function formatTime(s){
+        const m = Math.floor(s/60);
+        const sec = Math.floor(s%60);
+        return String(m).padStart(2,'0') + ':' + String(sec).padStart(2,'0');
+    }
+
+    function tick(){
+        if(remaining <= 0){
+            timerEl.textContent = '00:00';
+            // remove 'required' from radio inputs so programmatic submit won't be blocked
+            // ensure any validation doesn't block programmatic submit
+            document.querySelectorAll('input[type=radio]').forEach(i => i.removeAttribute('required'));
+            // submit form to record answers (server will accept missing answers as -1)
+            try{ if(form){ form.__autoSubmitting = true; document.getElementById('auto_submit_reason').value = 'timeout'; form.submit(); } } catch(e){ /* ignore */ }
+            return;
+        }
+        timerEl.textContent = formatTime(remaining);
+        remaining -= 1;
+        setTimeout(tick, 1000);
+    }
+
+    // initialize display
+    if(timerEl){ timerEl.textContent = formatTime(Math.max(0, remaining)); }
+    // start ticking after 1s to keep display accurate
+    setTimeout(tick, 1000);
+})();
+</script>
+<script>
+// Auto-submit when the page visibility changes or window loses focus
+(function(){
+    const form = document.querySelector('form');
+    if(!form) return;
+
+    function doAutoSubmit(reason){
+        if(form.__autoSubmitting) return;
+        form.__autoSubmitting = true;
+        const hidden = document.getElementById('auto_submit_reason');
+        if(hidden) hidden.value = reason;
+        // remove required attributes so submit isn't blocked
+        document.querySelectorAll('input[type=radio]').forEach(i => i.removeAttribute('required'));
+        try{ form.submit(); } catch(e){ /* ignore */ }
+    }
+
+    // Visibility API
+    document.addEventListener('visibilitychange', function(){
+        if(document.hidden) doAutoSubmit('visibilitychange');
+    });
+
+    // Window blur (covers switching windows/tabs)
+    window.addEventListener('blur', function(){
+        // slight delay to avoid firing during normal interactions (e.g., devtools)
+        setTimeout(()=>{ if(document.hidden || document.activeElement === null) doAutoSubmit('blur'); }, 300);
+    });
+
+    // Pagehide/unload (mobile app switch behaviors)
+    window.addEventListener('pagehide', function(){ doAutoSubmit('pagehide'); });
+})();
+</script>
+<script>
+// Intercept submit and confirm when not all questions answered
+(function(){
+    const form = document.querySelector('form');
+    const submitBtn = document.getElementById('submit-quiz');
+    if(!form || !submitBtn) return;
+
+    form.addEventListener('submit', function(e){
+        // If this submission is triggered programmatically by the timer auto-submit,
+        // allow it to proceed without prompting (we detect this by checking a flag).
+        if(form.__autoSubmitting) return;
+
+        e.preventDefault();
+        // Count questions and answered ones
+        const questions = Array.from(document.querySelectorAll('.question-card'));
+        const total = questions.length;
+        let answered = 0;
+        for(let i=0;i<total;i++){
+            const name = 'q'+i;
+            if(document.querySelector('input[name="'+name+'"]:checked')) answered++;
+        }
+
+        if(answered === total){
+            // all answered, submit normally
+            form.submit();
+            return;
+        }
+
+        const proceed = window.confirm(`You have answered ${answered} / ${total} questions. Proceed to submit?`);
+        if(proceed){
+            form.submit();
+        } else {
+            // allow the user to continue reviewing
+        }
+    });
+})();
+</script>
 {% endblock %}

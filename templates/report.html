@@ -7,6 +7,7 @@
             <th>Name</th>
             <th>Roll</th>
             <th>Score</th>
+            <th>Auto-submit</th>
             <th>Sheet</th>
             <th>Saved</th>
         </tr>
@@ -17,6 +18,13 @@
             <td>{{ s.name }}</td>
             <td>{{ s.roll }}</td>
             <td>{{ s.score }}</td>
+                                    <td>
+                                        {% if s.auto_submit_reason %}
+                                            <span class="badge warn" title="Auto-submitted">{{ s.auto_submit_reason }}</span>
+                                        {% else %}
+                                            <span class="muted">-</span>
+                                        {% endif %}
+                                    </td>
                                     <td>
                                         {% if s.has_sheet %}
                                             <a class="btn small" href="{{ url_for('student_sheet', room_id=room.id, student_id=s.id) }}">View</a>

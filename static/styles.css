@@ -285,11 +285,14 @@ input:focus,textarea:focus,select:focus{outline:none;box-shadow:0 0 0 3px rgba(7
 .question-card{border-radius:10px;padding:14px;margin-bottom:14px;background:var(--card-bg);border:1px solid var(--card-border)}
 .question-card legend{font-weight:700;margin-bottom:8px}
 .options{display:flex;flex-direction:column;gap:8px}
-.option{padding:10px;border-radius:8px;border:1px solid rgba(255,255,255,0.03);background:transparent;display:flex;justify-content:space-between;align-items:center}
+.option{padding:10px;border-radius:8px;border:1px solid rgba(255,255,255,0.03);background:transparent;display:flex;align-items:center;justify-content:flex-start;gap:12px}
 .option.correct{background:rgba(75,191,115,0.08);border-color:rgba(75,191,115,0.18)}
 .option.wrong{background:rgba(225,74,59,0.06);border-color:rgba(225,74,59,0.12)}
 .option-label{flex:1}
 .option-mark{font-weight:700;margin-left:8px}
+
+/* Ensure option text is left-aligned and takes remaining space */
+.option .option-text{flex:1;text-align:left}
 
 /* Progress/Timer */
 .progress{height:10px;background:rgba(255,255,255,0.03);border-radius:999px;overflow:hidden}

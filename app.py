@@ -62,6 +62,7 @@ class AnswerSheet(db.Model):
         room_id = db.Column(db.Integer, db.ForeignKey('room.id'), index=True)
         score = db.Column(db.Integer)
         details_json = db.Column(db.Text)
+        auto_submit_reason = db.Column(db.String(50), nullable=True)
         created_at = db.Column(db.DateTime, default=datetime.utcnow)
 
 # ----------------- Helpers -----------------
@@ -195,12 +196,13 @@ def finalize_room_submissions(room):
             })
         sheet = AnswerSheet.query.filter_by(student_id=s.id, room_id=room.id).first()
         if not sheet:
-            sheet = AnswerSheet(student_id=s.id, room_id=room.id, score=score, details_json=json.dumps(details))
+            sheet = AnswerSheet(student_id=s.id, room_id=room.id, score=score, details_json=json.dumps(details), auto_submit_reason='auto')
             db.session.add(sheet)
         else:
             sheet.score = score
             sheet.details_json = json.dumps(details)
             sheet.created_at = datetime.utcnow()
+            sheet.auto_submit_reason = sheet.auto_submit_reason or 'auto'
     db.session.commit()
 
 
@@ -647,14 +649,22 @@ def start_quiz_student(room_id):
             })
 
         # Upsert AnswerSheet for this student/room
+        reason = None
+        try:
+            reason = request.form.get('auto_submit_reason')
+        except Exception:
+            reason = None
+
         sheet = AnswerSheet.query.filter_by(student_id=user.id, room_id=room.id).first()
         if not sheet:
-            sheet = AnswerSheet(student_id=user.id, room_id=room.id, score=score, details_json=json.dumps(details))
+            sheet = AnswerSheet(student_id=user.id, room_id=room.id, score=score, details_json=json.dumps(details), auto_submit_reason=reason)
             db.session.add(sheet)
         else:
             sheet.score = score
             sheet.details_json = json.dumps(details)
             sheet.created_at = datetime.utcnow()
+            if reason:
+                sheet.auto_submit_reason = reason
 
         db.session.commit()
         flash(f"Quiz submitted! Score: {score}/{len(questions)}", "success")
@@ -773,7 +783,8 @@ def room_report(room_id):
             'roll': s.roll,
             'score': r.score if r else 0,
             'has_sheet': bool(sheet),
-            'created_at': sheet.created_at if sheet else None
+            'created_at': sheet.created_at if sheet else None,
+            'auto_submit_reason': sheet.auto_submit_reason if sheet else None
         })
     return render_template("report.html", user=user, room=room, students=students)
 
