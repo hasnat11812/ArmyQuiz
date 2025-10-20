@@ -28,7 +28,8 @@
             </div>
             <div class="form-row">
                 <label for="roll">Roll Number</label>
-                <input type="text" id="roll" name="roll" placeholder="12345" required>
+                <input type="text" id="roll" name="roll" placeholder="12345">
+                <small id="roll-help" class="muted">Required for students; optional for teachers.</small>
             </div>
             <div class="form-actions">
                 <button type="submit" class="btn btn-primary hover-glow pulse">Register</button>
@@ -38,4 +39,26 @@
         </div>
     </div>
 </div>
+<script>
+// Toggle roll field required based on selected role
+(function(){
+    const role = document.getElementById('role');
+    const roll = document.getElementById('roll');
+    function update() {
+        if (!role || !roll) return;
+        if (role.value === 'student') {
+            roll.required = true;
+            roll.placeholder = '12345';
+            roll.closest('.form-row').querySelector('#roll-help').textContent = 'Required for students.';
+        } else {
+            roll.required = false;
+            roll.placeholder = '';
+            roll.closest('.form-row').querySelector('#roll-help').textContent = 'Optional for teachers.';
+        }
+    }
+    role && role.addEventListener('change', update);
+    // initialize on load
+    document.addEventListener('DOMContentLoaded', update);
+})();
+</script>
 {% endblock %}

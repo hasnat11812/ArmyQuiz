@@ -230,13 +230,20 @@ def register():
         role = request.form['role']
         roll = request.form.get('roll', None)
 
+        # If role is student, roll is required. For teachers, roll is optional.
+        if role == 'student' and (not roll or not roll.strip()):
+            flash('Roll number is required for students.', 'error')
+            return redirect(url_for('register'))
+
         # Check if email already exists
         if User.query.filter_by(email=email).first():
             flash("Email already exists!")
             return redirect(url_for('register'))
 
         # Create new user
-        u = User(name=name, email=email, password=password, role=role, roll=roll)
+        # Normalize empty roll to None for DB clarity
+        rval = roll.strip() if roll and roll.strip() else None
+        u = User(name=name, email=email, password=password, role=role, roll=rval)
         db.session.add(u)
         db.session.commit()
         flash("Registered successfully!")
