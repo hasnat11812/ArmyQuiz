@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="vertical-center">
+    <div class="centered-card fade-in">
+        <h2>Welcome, {{ user.name }}</h2>
+        <p><strong>Room:</strong> {{ room.name }}</p>
+        <p><strong>Code:</strong> {{ room.code }}</p>
+
+        {% if room.quiz_start_time %}
+            <a href="{{ url_for('start_quiz_student', room_id=room.id) }}" class="btn primary">Start Quiz</a>
+        {% else %}
+            <p class="small">The quiz has not started yet. Please wait for your teacher.</p>
+        {% endif %}
+
+        <div class="form-actions" style="margin-top:20px;">
+            <a href="{{ url_for('index') }}" class="btn secondary">Back Home</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

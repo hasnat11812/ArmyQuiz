@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block title %}{{ student.name }} — Printable Sheet{% endblock %}
+{% block content %}
+<section class="grid" style="grid-template-columns:1fr;">
+  <div class="card fade-in" style="padding:18px; max-width:900px; margin:0 auto">
+    <h2>{{ student.name }} — Sheet</h2>
+    <p>Roll: <strong>{{ student.roll }}</strong></p>
+    <p>Score: <strong>{{ score }} / {{ total }}</strong></p>
+
+    {% for q in qlist %}
+      <fieldset style="margin:12px 0;padding:12px;border:1px solid #ddd;">
+        <legend><strong>Q{{ q.index }}:</strong> {{ q.question }}</legend>
+        <ol type="a">
+          {% for opt in q.options %}
+            {% set idx = loop.index0 %}
+            <li class="print-option {% if idx==q.correct_answer %}print-correct{% elif idx==q.student_choice and not q.correct %}print-wrong{% endif %}">
+              {{ opt }} 
+              {% if idx==q.correct_answer %}(Correct){% elif idx==q.student_choice and not q.correct %}(Student Answered){% endif %}
+            </li>
+          {% endfor %}
+        </ol>
+      </fieldset>
+    {% endfor %}
+  </div>
+</section>
+{% endblock %}

@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container teacher-dashboard">
+    <div class="fade-in">
+        <h2 class="animated-text">Welcome, {{ user.name }}!</h2>
+
+        <div class="stat-grid mb-3" aria-hidden="true">
+            <div class="stat-card">
+                <div class="label small muted">Rooms</div>
+                <div class="value">{{ rooms_count|default(0) }}</div>
+            </div>
+            <div class="stat-card">
+                <div class="label small muted">Quizzes</div>
+                <div class="value">{{ quizzes_count|default(0) }}</div>
+            </div>
+            <div class="stat-card">
+                <div class="label small muted">Students</div>
+                <div class="value">{{ students_count|default(0) }}</div>
+            </div>
+            <div class="stat-card">
+                <div class="label small muted">Active</div>
+                <div class="value">{{ active_rooms|default(0) }}</div>
+            </div>
+        </div>
+
+        <div class="card-container">
+            <a href="{{ url_for('create_room') }}" class="card glow-card hover-glow" data-aos="fade-up">
+                <h3>Create Quiz Room</h3>
+            </a>
+            <a href="{{ url_for('view_quizzes') }}" class="card glow-card hover-glow" data-aos="fade-up" data-aos-delay="100">
+                <h3>View Quizzes</h3>
+            </a>
+            <a href="{{ url_for('view_results') }}" class="card glow-card hover-glow" data-aos="fade-up" data-aos-delay="200">
+                <h3>View Results</h3>
+            </a>
+        </div>
+
+        {% if students %}
+        <div class="card mt-2">
+            <h3>Students</h3>
+            <div class="student-list">
+                {% for s in students %}
+                <div class="student-row">
+                    <div>
+                        <span class="avatar" aria-hidden="true"></span>
+                        <strong>{{ s.name }}</strong>
+                        <div class="small muted">{{ s.roll }}</div>
+                    </div>
+                    <div class="controls">
+                        <span class="badge">{{ s.score }}</span>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
+
+    </div>
+</div>
+{% endblock %}

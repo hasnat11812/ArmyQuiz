@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Room Report: {{ room.name }}</h2>
+<table>
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Roll</th>
+            <th>Score</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for s in students %}
+        <tr>
+            <td>{{ s.name }}</td>
+            <td>{{ s.roll }}</td>
+            <td>{{ s.score }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+<a href="{{ url_for('teacher_room', room_id=room.id) }}" class="btn secondary">Back</a>
+{% endblock %}

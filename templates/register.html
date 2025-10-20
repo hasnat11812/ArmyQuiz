@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+    <div class="vertical-center fade-in">
+        <div class="centered-card glow-card" data-aos="fade-up">
+        <!-- central logo now provided site-wide in base.html -->
+        <h2 class="animated-text">Register</h2>
+        <form method="POST">
+            <div class="form-row">
+                <label for="name">Full Name</label>
+                <input type="text" id="name" name="name" placeholder="Your name" required>
+            </div>
+            <div class="form-row">
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" placeholder="you@example.com" required>
+            </div>
+            <div class="form-row">
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" placeholder="••••••••" required>
+            </div>
+            <div class="form-row">
+                <label for="role">Role</label>
+                <select id="role" name="role" required>
+                    <option value="student">Student</option>
+                    <option value="teacher">Teacher</option>
+                </select>
+            </div>
+            <div class="form-row">
+                <label for="roll">Roll Number</label>
+                <input type="text" id="roll" name="roll" placeholder="12345" required>
+            </div>
+            <div class="form-actions">
+                <button type="submit" class="btn btn-primary hover-glow pulse">Register</button>
+                <a href="{{ url_for('login') }}" class="btn btn-secondary hover-glow">Back to Login</a>
+            </div>
+        </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

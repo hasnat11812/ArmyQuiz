@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container">
+    <div class="vertical-center">
+        <div class="centered-card fade-in">
+        <!-- central logo now provided site-wide in base.html -->
+        <h2>Room: {{ room.name }}</h2>
+        <p><strong>Code:</strong> {{ room.code }}</p>
+
+        {% if room.quiz_id %}
+            <p>Quiz uploaded.</p>
+            {% if not room.quiz_start_time %}
+                <a href="{{ url_for('start_quiz', room_id=room.id) }}" class="btn primary">Start Quiz</a>
+            {% else %}
+                <span class="timer">Quiz in progress</span>
+            {% endif %}
+        {% else %}
+            <a href="{{ url_for('create_quiz', room_id=room.id) }}" class="btn primary">Upload Quiz</a>
+        {% endif %}
+
+        <hr>
+
+        <h3>Students in Room</h3>
+        {% if room.students %}
+        <table>
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Roll</th>
+                    <th>Started</th>
+                    <th>Submitted</th>
+                    <th>Score</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for s in room.students %}
+                <tr>
+                    <td>{{ s.name }}</td>
+                    <td>{{ s.roll }}</td>
+                    <td>
+                        {% set r = s.studentquizresult_set|selectattr('room_id', 'equalto', room.id)|first %}
+                        {{ r.started.strftime("%H:%M:%S") if r and r.started else '-' }}
+                    </td>
+                    <td>{{ 'Yes' if r and r.answers_json and r.answers_json != '{}' else 'No' }}</td>
+                    <td>{{ r.score if r and r.answers_json and r.answers_json != '{}' else '-' }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+            <p>No students have joined yet.</p>
+        {% endif %}
+
+        <div class="form-actions" style="margin-top:20px;">
+            <a href="{{ url_for('teacher_dashboard', room_id=room.id) }}" class="btn secondary">Dashboard</a>
+            <a href="{{ url_for('index') }}" class="btn secondary">Back Home</a>
+        </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

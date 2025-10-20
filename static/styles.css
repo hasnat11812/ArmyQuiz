@@ -1,0 +1,499 @@
+/*
+	Centralized modern stylesheet — "Army" theme
+	- Neutral accessible palette with high contrast
+	- Responsive utilities and layout helpers
+	- Simple component styles: cards, buttons, forms, table
+	- Print-friendly rules for printable sheets
+*/
+
+/* --- debug badge removed --- */
+
+
+:root{
+	--bg: #0f1410; /* deep green/near-black */
+	--panel: #17251a; /* darker panel */
+	--muted: #9aa29a; 
+	--accent: #2e8b57; /* leafy green */
+	--accent-2: #4bbf73; 
+	--danger: #e14a3b;
+	--glass: rgba(255,255,255,0.04);
+
+	.central-logo {
+		display: inline-block;
+		width: 140px;
+		height: 64px;
+		position: relative;
+		z-index: 40;
+	}
+
+	/* small variation for compact headers */
+	.central-logo.small-logo {
+		width: 98px;
+		height: 44px;
+	}
+	.no-print{display:none}
+	main.container{padding:0}
+}
+
+/* Accessibility: higher contrast focus states for keyboard users */
+button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:3px solid rgba(75,191,115,0.18);outline-offset:2px}
+
+/* Micro-interactions */
+.btn{transition:transform .12s ease,box-shadow .12s ease}
+.btn:active{transform:translateY(1px)}
+
+/* Utility for visually emphasising important text */
+.emph{font-weight:700;color:var(--accent-2)}
+
+/* Small-screen grid helpers */
+@media (max-width:900px){
+	.grid.cols-2{grid-template-columns:1fr}
+	.grid.cols-3{grid-template-columns:1fr}
+}
+
+/* small animation for subtle attention */
+.pulse{animation:pulse 2.4s ease-in-out infinite}
+@keyframes pulse{0%{transform:scale(1)}50%{transform:scale(1.02)}100%{transform:scale(1)}}
+
+/* tiny form helper: inline label and value */
+.kv{display:flex;gap:8px;align-items:center}
+
+/* Color-blind friendly table markers (pattern + color) */
+.score-badge::before{content:"";display:inline-block;width:8px;height:8px;border-radius:2px;margin-right:8px;background:linear-gradient(45deg,var(--accent),var(--accent-2))}
+
+/* Footer sticky behaviour for short pages */
+body{display:flex;flex-direction:column;min-height:100vh}
+.main-content{flex:1}
+
+
+/* Global resets */
+*{box-sizing:border-box}
+html,body{height:100%;margin:0;font-family:Inter, Roboto, system-ui, -apple-system, 'Segoe UI', 'Helvetica Neue', Arial; color:var(--text);background:linear-gradient(180deg,var(--bg),#07100b);}
+a{color:var(--accent-2);text-decoration:none}
+img{max-width:100%;height:auto}
+
+/* Container */
+.container{max-width:var(--max-width);margin:0 auto;padding:18px; text-align: center;}
+main.container{padding-top:28px;padding-bottom:80px}
+
+/* Navbar */
+.navbar{background:linear-gradient(90deg,var(--panel),#0b2012);padding:10px 18px;border-bottom:1px solid rgba(255,255,255,0.04)}
+.navbar .brand{display:flex;gap:10px;align-items:center}
+.navbar .brand .logo{width:36px;height:36px;border-radius:6px;background:var(--accent)}
+.navbar .user-menu{margin-left:auto;display:flex;align-items:center;gap:8px}
+
+/* Cards */
+.card{background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));border-radius:var(--card-radius);padding:18px;margin-bottom:18px;box-shadow:0 6px 18px rgba(2,8,2,0.6);border:1px solid rgba(255,255,255,0.03)}
+.card h2{margin:4px 0 12px;font-size:1.25rem}
+
+/* Buttons */
+.btn{display:inline-flex;align-items:center;gap:8px;padding:8px 12px;border-radius:8px;border:1px solid transparent;background:var(--glass);color:var(--text);cursor:pointer}
+.btn.primary{background:linear-gradient(180deg,var(--accent),var(--accent-2));color:#06220f;border-color:rgba(0,0,0,0.25);font-weight:600}
+.btn.ghost{background:transparent;border:1px solid rgba(255,255,255,0.06)}
+.btn.outline{background:transparent;border:1px solid rgba(255,255,255,0.06)}
+.btn.small{padding:6px 10px;font-size:0.9rem}
+.btn.danger{background:var(--danger);color:white}
+
+/* Form */
+.form-row{margin-bottom:12px;display:flex;flex-direction:column}
+.form-row label{font-size:0.9rem;color:var(--muted);margin-bottom:6px}
+input[type=text],input[type=email],input[type=password],textarea,select{background:transparent;border:1px solid rgba(255,255,255,0.06);padding:10px;border-radius:8px;color:var(--text)}
+textarea{min-height:140px}
+
+.form-actions{display:flex;gap:8px;align-items:center}
+
+/* Tables */
+table{width:100%;border-collapse:collapse;background:transparent}
+table thead th{background:rgba(255,255,255,0.02);padding:10px;text-align:left;font-weight:600;border-bottom:1px solid rgba(255,255,255,0.03)}
+table tbody td{padding:10px;border-bottom:1px dashed rgba(255,255,255,0.03)}
+
+/* Utility classes */
+.fade-in{animation:fadeIn .3s ease both}
+.centered-card{max-width:700px;margin:0 auto}
+.vertical-center{display:flex;align-items:center;justify-content:center;min-height:70vh}
+.brand{display:flex;align-items:center;gap:12px;font-weight:700}
+.small{font-size:0.9rem;color:var(--muted)}
+.muted{color:var(--muted)}
+
+/* Central logo with animated loading bar */
+.central-logo{width:92px;height:92px;background-image:url('/static/logo.svg');background-size:contain;background-repeat:no-repeat;background-position:center;border-radius:12px;position:relative;margin:0 auto}
+.central-logo .loader{position:absolute;left:8px;right:8px;bottom:10px;height:8px;border-radius:6px;background:rgba(255,255,255,0.06);overflow:hidden}
+.central-logo .loader .bar{position:relative;z-index:2;height:100%;width:0;background:linear-gradient(90deg,var(--accent),var(--accent-2));box-shadow:0 6px 18px rgba(0,0,0,0.35);transition:width .28s linear}
+.central-logo .loader::before{z-index:1}
+
+/* indeterminate shimmer overlay for perceived progress */
+.central-logo .loader::before{content:"";position:absolute;left:-40%;top:0;width:40%;height:100%;background:linear-gradient(90deg,rgba(255,255,255,0.02),rgba(255,255,255,0.06),rgba(255,255,255,0.02));transform:skewX(-12deg);animation:shimmerBar 1.4s linear infinite;pointer-events:none}
+@keyframes shimmerBar{0%{left:-40%}100%{left:140%}}
+
+.central-logo.loading .loader .bar{width:58%}
+.central-logo.complete .loader .bar{width:100%;transition:width .5s cubic-bezier(.2,.9,.2,1)}
+
+/* sizing adjustments for header small logo */
+.central-logo.small-logo{width:40px;height:40px;background-size:contain;border-radius:8px}
+.central-logo.small-logo .loader{left:6px;right:6px;bottom:6px;height:6px;border-radius:4px}
+.central-logo.small-logo .loader .bar{box-shadow:none}
+
+/* Accessibility helpers */
+.score-badge{background:rgba(75,191,115,0.12);color:var(--accent-2);padding:6px 8px;border-radius:20px;font-weight:600}
+
+/* Footer */
+.site-footer{background:linear-gradient(180deg,#0c170d,var(--panel));padding:18px;color:var(--muted)}
+
+/* print styles */
+@media print{
+	body{background:white;color:black}
+	.navbar,.site-footer,.btn{display:none}
+	.card{box-shadow:none;border:0}
+}
+
+/* small screens */
+@media (max-width:640px){
+	.container{padding:12px}
+	.card{padding:14px}
+	.navbar{padding:8px}
+}
+
+@keyframes fadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+
+/* --- Additional component & utility styles for modern "Army" quiz UI --- */
+
+/* Hero / Landing */
+.hero{padding:48px 18px;background:linear-gradient(180deg, rgba(75,191,115,0.04), rgba(0,0,0,0));border-radius:12px;margin-bottom:18px}
+.hero h1{font-size:2rem;margin:0 0 8px}
+.hero p{color:var(--muted);max-width:720px}
+
+/* Grid helpers */
+.grid{display:grid;gap:16px}
+.grid.cols-2{grid-template-columns:1fr 360px}
+.grid.cols-3{grid-template-columns:1fr 360px 260px}
+.grid.center{place-items:center}
+
+/* Avatar / user pill */
+.avatar{width:36px;height:36px;border-radius:8px;background:var(--accent);display:inline-block;vertical-align:middle}
+.user-pill{display:inline-flex;gap:10px;align-items:center;padding:6px 10px;border-radius:999px;background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.03)}
+
+/* subtle glow card used on dashboards */
+.glow-card{background:linear-gradient(135deg, rgba(66,153,112,0.06), rgba(0,0,0,0.02));padding:18px;border-radius:12px;border:1px solid rgba(255,255,255,0.03);transition:transform .18s ease,box-shadow .18s ease}
+.glow-card:hover{transform:translateY(-6px);box-shadow:0 18px 40px rgba(8,15,6,0.5)}
+
+/* card container small grid */
+.card-container{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px}
+
+/* badges */
+.badge{display:inline-block;padding:6px 10px;border-radius:999px;background:rgba(255,255,255,0.03);color:var(--text);font-weight:600}
+.badge.green{background:rgba(75,191,115,0.12);color:var(--accent-2)}
+.badge.warn{background:rgba(255,200,0,0.08);color:#ffd56b}
+
+/* Dashboard specific helpers */
+.teacher-dashboard .stat-row{display:flex;gap:18px;align-items:center}
+.teacher-dashboard .stat-card{flex:1;padding:12px;border-radius:10px;background:rgba(255,255,255,0.02);text-align:center}
+.student-dashboard .room-list{display:flex;flex-direction:column;gap:12px}
+
+/* small utilities */
+.muted-2{color:rgba(255,255,255,0.55)}
+.text-right{text-align:right}
+.center{text-align:center}
+
+/* dropdown-like menu placeholder styling */
+.menu{background:var(--panel);border:1px solid rgba(255,255,255,0.04);padding:8px;border-radius:8px}
+
+/* form helpers */
+.inline-row{display:flex;gap:8px;align-items:center}
+
+/* subtle focus styles */
+input:focus,textarea:focus,select:focus{outline:none;box-shadow:0 0 0 3px rgba(75,191,115,0.12);border-color:rgba(75,191,115,0.24)}
+
+/* responsive tweaks */
+@media (max-width:480px){
+	.glow-card{padding:12px}
+	.hero h1{font-size:1.4rem}
+}
+
+/* --- Quiz specific components --- */
+.question-card{border-radius:10px;padding:14px;margin-bottom:14px;background:linear-gradient(180deg, rgba(255,255,255,0.01), rgba(0,0,0,0.02));border:1px solid rgba(255,255,255,0.03)}
+.question-card legend{font-weight:700;margin-bottom:8px}
+.options{display:flex;flex-direction:column;gap:8px}
+.option{padding:10px;border-radius:8px;border:1px solid rgba(255,255,255,0.03);background:transparent;display:flex;justify-content:space-between;align-items:center}
+.option.correct{background:rgba(75,191,115,0.08);border-color:rgba(75,191,115,0.18)}
+.option.wrong{background:rgba(225,74,59,0.06);border-color:rgba(225,74,59,0.12)}
+.option-label{flex:1}
+.option-mark{font-weight:700;margin-left:8px}
+
+/* Progress/Timer */
+.progress{height:10px;background:rgba(255,255,255,0.03);border-radius:999px;overflow:hidden}
+.progress > i{display:block;height:100%;background:linear-gradient(90deg,var(--accent),var(--accent-2));width:40%}
+.timer{font-weight:700;color:var(--accent-2)}
+
+/* Modal */
+.modal-backdrop{position:fixed;inset:0;background:rgba(0,0,0,0.6);display:flex;align-items:center;justify-content:center}
+.modal{background:var(--panel);padding:18px;border-radius:12px;max-width:760px;width:100%;box-shadow:0 20px 50px rgba(2,6,2,0.6)}
+
+/* Loader overlay */
+.loader-overlay{position:fixed;inset:0;background:linear-gradient(180deg,rgba(0,0,0,0.6),rgba(0,0,0,0.65));display:flex;align-items:center;justify-content:center;z-index:1200;opacity:0;visibility:hidden;transition:opacity .18s ease,visibility .18s}
+.loader-overlay.show{opacity:1;visibility:visible}
+.loader-card{background:var(--panel);padding:18px;border-radius:12px;display:flex;gap:12px;align-items:center}
+.loader-text{font-weight:700}
+
+/* Print tweaks for quizzes */
+@media print{
+  .question-card{page-break-inside:avoid}
+  .option{border:1px solid #ddd}
+}
+
+
+/* --- Extended utilities & typography --- */
+:root{
+	--space-xs:6px;
+	--space-sm:10px;
+	--space-md:16px;
+	--space-lg:24px;
+	--space-xl:40px;
+}
+
+/* Typography */
+h1,h2,h3,h4{margin:0 0 var(--space-sm) 0}
+h1{font-size:1.8rem}
+h2{font-size:1.4rem}
+h3{font-size:1.05rem}
+p{line-height:1.6;color:var(--muted)}
+
+/* Spacing helpers */
+.mt-1{margin-top:var(--space-xs)}
+.mt-2{margin-top:var(--space-sm)}
+.mt-3{margin-top:var(--space-md)}
+.mb-1{margin-bottom:var(--space-xs)}
+.mb-2{margin-bottom:var(--space-sm)}
+.mb-3{margin-bottom:var(--space-md)}
+
+/* Flex helpers */
+.row{display:flex;gap:12px;align-items:center}
+.col{display:flex;flex-direction:column}
+.justify-between{justify-content:space-between}
+
+/* Button variants */
+.btn.secondary{background:transparent;border:1px solid rgba(255,255,255,0.06);color:var(--text)}
+.btn.ghost-light{background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.04)}
+
+/* Form: helper text, errors */
+.form-help{font-size:0.9rem;color:var(--muted);margin-top:6px}
+.form-error{color:var(--danger);font-size:0.9rem}
+
+/* Small responsive container */
+.narrow{max-width:760px;margin:0 auto}
+
+/* Accessibility: focus-visible only */
+:focus:not(:focus-visible){box-shadow:none}
+
+/* Toast notifications */
+.toast-wrap{position:fixed;top:18px;right:18px;z-index:2000;display:flex;flex-direction:column;gap:8px}
+.toast{background:var(--panel);padding:10px 12px;border-radius:8px;border-left:4px solid var(--accent);color:var(--text);box-shadow:0 8px 18px rgba(0,0,0,0.5)}
+.toast.error{border-left-color:var(--danger)}
+
+/* Pagination */
+.pagination{display:inline-flex;gap:6px;align-items:center}
+.pagination a{padding:6px 10px;border-radius:8px;border:1px solid rgba(255,255,255,0.04);background:transparent}
+.pagination a.active{background:var(--accent);color:#06220f;border-color:transparent}
+
+/* Table stripes */
+table.striped tbody tr:nth-child(odd){background:rgba(255,255,255,0.01)}
+
+/* Skeleton loader (placeholder) */
+.skeleton{background:linear-gradient(90deg,rgba(255,255,255,0.02),rgba(255,255,255,0.06),rgba(255,255,255,0.02));background-size:200% 100%;animation:shimmer 1.4s linear infinite;border-radius:6px}
+@keyframes shimmer{0%{background-position:200% 0}100%{background-position:-200% 0}}
+
+/* Tiny utilities */
+.hidden{display:none}
+.visually-hidden{position:absolute!important;height:1px;width:1px;overflow:hidden;clip:rect(1px,1px,1px,1px);white-space:nowrap}
+
+/* ---------------- Phase 2 additions ---------------- */
+
+/* Reduced motion preference */
+@media (prefers-reduced-motion: reduce){
+	*{animation-duration:0.01ms!important;animation-iteration-count:1!important;transition-duration:0.01ms!important}
+}
+
+/* Toggle switch */
+.toggle{position:relative;width:48px;height:28px;border-radius:999px;background:rgba(255,255,255,0.04);display:inline-block;border:1px solid rgba(255,255,255,0.04)}
+.toggle input{position:absolute;opacity:0;width:0;height:0}
+.toggle .knob{position:absolute;top:3px;left:3px;width:22px;height:22px;border-radius:50%;background:#fff;box-shadow:0 4px 12px rgba(0,0,0,0.3);transition:left .16s ease,background .16s}
+.toggle input:checked + .knob{left:23px;background:linear-gradient(180deg,var(--accent),var(--accent-2))}
+
+/* Custom checkbox & radio */
+.control{display:inline-flex;align-items:center;gap:8px}
+.control input{appearance:none;width:18px;height:18px;border-radius:4px;border:1px solid rgba(255,255,255,0.08);background:transparent;position:relative}
+.control input:checked{background:linear-gradient(90deg,var(--accent),var(--accent-2));border-color:transparent}
+.control input[type="radio"]{border-radius:50%}
+.control label{user-select:none}
+
+/* Responsive table collapse (stacked rows on small screens) */
+@media (max-width:720px){
+	table.responsive thead{display:none}
+	table.responsive tbody tr{display:block;border-bottom:1px solid rgba(255,255,255,0.03);padding:10px}
+	table.responsive tbody td{display:flex;justify-content:space-between;gap:8px;padding:6px 0}
+	table.responsive tbody td::before{content:attr(data-label);color:var(--muted);margin-right:8px}
+}
+
+/* Dashboard widgets */
+.stat-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+@media (max-width:980px){.stat-grid{grid-template-columns:repeat(2,1fr)}}
+@media (max-width:520px){.stat-grid{grid-template-columns:1fr}}
+.stat-card{background:linear-gradient(180deg,rgba(255,255,255,0.02),rgba(0,0,0,0.02));padding:12px;border-radius:10px;display:flex;flex-direction:column;gap:6px}
+.stat-card .value{font-size:1.4rem;font-weight:800;color:var(--accent-2)}
+
+/* Student list compact view */
+.student-list{display:flex;flex-direction:column;gap:8px}
+.student-row{display:flex;justify-content:space-between;align-items:center;padding:8px;border-radius:8px;background:rgba(255,255,255,0.01);border:1px solid rgba(255,255,255,0.02)}
+
+/* Controls spacing */
+.controls{display:flex;gap:8px;flex-wrap:wrap}
+
+/* Tiny misc helpers */
+.muted-3{color:rgba(255,255,255,0.45)}
+.label-pill{padding:6px 10px;border-radius:999px;background:rgba(255,255,255,0.02);font-weight:700}
+
+/* More printed-sheet helpers (visible in PDF/print) */
+.print-wide{width:100%;display:block}
+.print-only{display:none}
+@media print{.print-only{display:block}.no-print{display:none}}
+
+/* Utility to visually indicate inactive rows */
+.muted-row{opacity:0.55}
+
+/* small accessible color rules for badges */
+.badge.low{background:rgba(255,255,255,0.02);color:var(--muted)}
+.badge.high{background:linear-gradient(90deg,var(--accent),var(--accent-2));color:#06220f}
+
+/* End phase 2 */
+
+/* ---------------- Phase 3 additions ---------------- */
+
+/* Skip link for keyboard users */
+.skip-link{position:absolute;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden}
+.skip-link:focus{position:static;width:auto;height:auto;margin:8px;padding:8px;background:var(--panel);border-radius:6px;left:18px;top:18px;z-index:9999}
+
+/* Responsive header with hamburger */
+.site-header{
+	background:linear-gradient(180deg, rgba(6,12,8,0.55), rgba(6,12,8,0.35));
+	border-bottom:1px solid rgba(255,255,255,0.04);
+	backdrop-filter: blur(6px);
+	-webkit-backdrop-filter: blur(6px);
+	position:sticky;top:0;z-index:999;transition:background .18s ease,box-shadow .18s ease}
+
+/* container.header-inner: tightened layout for header content */
+.container.header-inner{display:flex;align-items:center;gap:12px;padding:10px 18px;max-width:var(--max-width);margin:0 auto}
+.header-inner{display:flex;align-items:center;gap:12px}
+.brand{font-weight:800;font-size:1.05rem}
+.nav{margin-left:auto;display:flex;align-items:center;gap:10px}
+.nav-item{padding:6px 8px;border-radius:6px}
+
+/* size variant for header logo */
+.central-logo.small-logo {
+    width: 17px;
+    height: 18px;
+    background-size: cover;
+    border-radius: 5px;
+}
+
+@media (max-width:720px){
+	.container.header-inner{padding:8px 12px}
+}
+
+/* hamburger for small screens */
+.hamburger{display:none;width:40px;height:40px;border-radius:8px;align-items:center;justify-content:center;border:1px solid rgba(255,255,255,0.04);background:transparent}
+.hamburger .bar{display:block;width:18px;height:2px;background:var(--text);border-radius:2px;position:relative}
+.hamburger .bar::before,.hamburger .bar::after{content:"";position:absolute;left:0;width:18px;height:2px;background:var(--text);border-radius:2px}
+.hamburger .bar::before{top:-6px}
+.hamburger .bar::after{top:6px}
+@media (max-width:720px){
+	.nav{display:none}
+	.hamburger{display:flex}
+}
+
+/* Spinner */
+.spinner{width:36px;height:36px;border-radius:50%;border:4px solid rgba(255,255,255,0.06);border-top-color:var(--accent-2);animation:spin 1s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* Tooltip */
+[data-tooltip]{position:relative}
+[data-tooltip]:hover::after{content:attr(data-tooltip);position:absolute;left:50%;transform:translateX(-50%);bottom:calc(100% + 8px);background:var(--panel);color:var(--text);padding:6px 8px;border-radius:6px;white-space:nowrap;box-shadow:0 6px 18px rgba(0,0,0,0.5)}
+
+/* Toast visuals: improved box and icons */
+.toast{display:flex;gap:10px;align-items:flex-start}
+.toast .icon{width:36px;height:36px;border-radius:8px;display:inline-flex;align-items:center;justify-content:center;font-weight:700}
+.toast.success .icon{background:linear-gradient(90deg,var(--accent),var(--accent-2));color:#06220f}
+.toast.error .icon{background:linear-gradient(90deg,var(--danger),#ff8b7b);color:#fff}
+
+/* Input helpers: clear button and appended labels */
+.input-group{display:flex;align-items:center;gap:8px}
+.input-group .append{background:rgba(255,255,255,0.02);padding:8px;border-radius:8px}
+.input-clear{background:transparent;border:0;color:var(--muted);cursor:pointer}
+
+/* Card subtle entrance animation */
+.card{transform:translateY(6px);opacity:0;animation:cardIn .28s cubic-bezier(.2,.9,.2,1) forwards}
+@keyframes cardIn{to{transform:none;opacity:1}}
+
+/* Playground spacing helpers */
+.gap-6{gap:6px}
+.gap-12{gap:12px}
+
+/* High contrast mode (for users who prefer strong contrast) */
+.high-contrast{--bg:#000;--panel:#111;--text:#fff;--accent:#ffd54f;--accent-2:#ffb300}
+
+/* End Phase 3 */
+
+/* ---------------- Phase 4 additions ---------------- */
+
+/* Form validation states */
+.is-valid{border-color:rgba(75,191,115,0.28);box-shadow:0 4px 18px rgba(75,191,115,0.06)}
+.is-invalid{border-color:rgba(225,74,59,0.28);box-shadow:0 4px 18px rgba(225,74,59,0.06)}
+.validation-text{font-size:0.85rem;margin-top:6px}
+.validation-text.success{color:var(--accent-2)}
+.validation-text.error{color:var(--danger)}
+
+/* Collapsible panels / accordion */
+.accordion{border-radius:10px;overflow:hidden}
+.accordion .acc-item{border-bottom:1px solid rgba(255,255,255,0.03)}
+.accordion .acc-head{display:flex;justify-content:space-between;align-items:center;padding:12px;cursor:pointer;background:var(--panel)}
+.accordion .acc-body{padding:12px;display:none;background:linear-gradient(180deg,rgba(255,255,255,0.01),transparent)}
+.accordion .acc-item.open .acc-body{display:block}
+
+/* Stepper / progress indicator */
+.stepper{display:flex;gap:12px;align-items:center}
+.step{display:flex;flex-direction:column;align-items:center;gap:6px}
+.step .dot{width:34px;height:34px;border-radius:999px;background:rgba(255,255,255,0.03);display:flex;align-items:center;justify-content:center}
+.step.active .dot{background:linear-gradient(90deg,var(--accent),var(--accent-2));color:#06220f}
+.step .label{font-size:0.85rem;color:var(--muted)}
+
+/* Code block / pre formatting */
+pre,code{font-family:SFMono-Regular,Menlo,Monaco,Consolas,'Liberation Mono','Courier New',monospace;background:rgba(0,0,0,0.04);padding:8px;border-radius:6px;color:var(--text);overflow:auto}
+pre{padding:12px}
+
+/* Print header/footer for generated PDFs */
+@media print{
+	.print-header{display:block;position:fixed;top:0;left:0;right:0;height:60px;background:white;color:black;padding:8px 18px;border-bottom:1px solid #ddd}
+	.print-footer{display:block;position:fixed;bottom:0;left:0;right:0;height:36px;background:white;color:black;padding:6px 18px;border-top:1px solid #ddd}
+	main.container{margin-top:72px;margin-bottom:48px}
+}
+
+/* Table sort visual (arrow) */
+.th-sort{position:relative;padding-right:18px}
+.th-sort::after{content:"\25B2";position:absolute;right:6px;top:50%;transform:translateY(-50%);font-size:0.7rem;opacity:0.5}
+.th-sort.desc::after{content:"\25BC"}
+
+/* Floating labels for inputs */
+.field{position:relative}
+.field input{padding:14px 10px 10px 10px}
+.field label{position:absolute;left:12px;top:12px;pointer-events:none;transition:all .14s ease;color:var(--muted)}
+.field input:focus + label,.field input:not(:placeholder-shown) + label{top:6px;font-size:0.8rem;color:var(--accent-2)}
+
+/* Tiny utility: collapse helper */
+.collapse{overflow:hidden;transition:height .18s ease}
+
+/* End Phase 4 */
+
+
+
+
+
+
+

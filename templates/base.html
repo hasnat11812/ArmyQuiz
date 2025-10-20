@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Army Quiz</title>
+    <!-- Lightweight reset + app stylesheet (cache-busted using file mtime) -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}?v={{ static_version }}">
+</head>
+<body>
+    <header class="site-header">
+        <div class="container header-inner">
+            <div style="display:flex;align-items:center;gap:12px">
+                <a class="brand" href="{{ url_for('index') }}">Army Quiz</a>
+                <div class="central-logo small-logo" aria-hidden="true"></div>
+            </div>
+            <nav class="nav">
+                {% if user %}
+                    <span class="nav-item">{{ user.name }} ({{ user.role }})</span>
+                    <a class="nav-item" href="{{ url_for('logout') }}">Logout</a>
+                {% else %}
+                    <a class="nav-item" href="{{ url_for('login') }}">Login</a>
+                    <a class="nav-item" href="{{ url_for('register') }}">Register</a>
+                {% endif %}
+            </nav>
+        </div>
+    </header>
+
+    <main class="container main-content">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                <div class="flash-container">
+                    {% for category, msg in messages %}
+                        <div class="flash flash-{{ category|default('info') }}">{{ msg }}</div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        {% endwith %}
+
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer class="site-footer">
+        <div class="container">&copy; {{ now().year if now is defined else '' }} Army Quiz</div>
+    </footer>
+    <script src="{{ url_for('static', filename='app.js') }}?v={{ static_version }}" defer></script>
+</body>
+</html>

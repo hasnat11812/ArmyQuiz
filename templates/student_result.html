@@ -1,0 +1,8 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="fade-in">
+    <h2>Your Result</h2>
+    <p>Score: <strong>{{ score }}/{{ total }}</strong></p>
+    <a href="{{ url_for('index') }}" class="btn primary">Back to Home</a>
+</div>
+{% endblock %}

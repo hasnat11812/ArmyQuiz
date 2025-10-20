@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container">
+    <div class="fade-in">
+        <h2>Create Quiz</h2>
+        <form method="POST">
+        <div class="form-row">
+            <label>Quiz Title</label>
+            <input type="text" name="title" placeholder="Enter quiz title" required>
+        </div>
+        <div class="form-row">
+            <label>Questions JSON</label>
+            <textarea name="questions" placeholder='[{"question":"Q1?","options":["A","B","C"],"answer":0}]' required></textarea>
+        </div>
+        <div class="form-actions">
+            <button type="submit" class="btn primary">Upload</button>
+            <a href="{{ url_for('teacher_room', room_id=room.id) }}" class="btn secondary">Cancel</a>
+        </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

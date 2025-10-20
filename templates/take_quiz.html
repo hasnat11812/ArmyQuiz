@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="fade-in">
+    <h2 class="animated-text">{{ quiz.title }}</h2>
+    <div class="quiz-header">
+        <span class="timer pulse-gradient" id="timer">00:00</span>
+        <span>Room: {{ room.name }}</span>
+    </div>
+
+    <form method="POST">
+        {% for i, q in enumerate(quiz.questions) %}
+        <div class="question-card glow-card" data-aos="fade-up" data-aos-delay="{{ i*50 }}">
+            <div class="q-num">Q{{ i+1 }}:</div>
+            <div class="q-text">{{ q.text }}</div>
+            <div class="options">
+                {% for opt in q.options %}
+                <label class="option hover-glow">
+                    <input type="radio" name="q{{ i }}" value="{{ opt }}" required>
+                    <span class="option-text">{{ opt }}</span>
+                </label>
+                {% endfor %}
+            </div>
+        </div>
+        {% endfor %}
+        <div class="form-actions">
+            <button type="submit" class="btn btn-primary hover-glow pulse">Submit Quiz</button>
+        </div>
+    </form>
+</div>
+{% endblock %}

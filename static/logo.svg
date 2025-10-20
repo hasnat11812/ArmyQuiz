@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="128" height="128" viewBox="0 0 128 128">
+  <defs>
+    <linearGradient id="lg" x1="0" x2="1">
+      <stop offset="0" stop-color="#2f5233"/>
+      <stop offset="1" stop-color="#5aa86d"/>
+    </linearGradient>
+    <filter id="s" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="6" stdDeviation="8" flood-color="#13331a" flood-opacity="0.18"/>
+    </filter>
+  </defs>
+  <g filter="url(#s)" fill="none" fill-rule="evenodd">
+    <rect x="8" y="8" width="112" height="112" rx="20" fill="url(#lg)"/>
+    <g transform="translate(28,28)" fill="#fff">
+      <!-- stylized checkmark / quiz tick combined with a speech bubble -->
+      <path d="M6 48 L18 36 L30 48 L66 12 L78 24 L24 78 L6 60 Z" opacity="0.95"/>
+    </g>
+  </g>
+</svg>

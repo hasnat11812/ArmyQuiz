@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% block title %}{{ student.name }} — Answers{% endblock %}
+{% block content %}
+<section class="grid" style="grid-template-columns:1fr;">
+  <div class="card fade-in centered-card">
+    <h2>{{ student.name }} — Sheet</h2>
+    <p>Roll: <strong>{{ student.roll }}</strong></p>
+    <p>Score: <strong>{{ score }} / {{ total }}</strong></p>
+    <div style="display:flex;gap:8px;justify-content:flex-end;margin-bottom:8px">
+      {% if current_user and (current_user.role=='teacher' or (current_user.role=='student' and current_user.id==student.id) or room.allow_download) %}
+        <a class="btn outline" href="{{ url_for('student_sheet_pdf', room_id=room.id, student_id=student.id) }}">Download PDF</a>
+      {% else %}
+        <a class="btn outline" href="{{ url_for('student_sheet_print', room_id=room.id, student_id=student.id) }}" target="_blank">Print / Export PDF</a>
+      {% endif %}
+      <a class="btn ghost" href="{{ back_url }}">Back</a>
+    </div>
+
+    {% for q in qlist %}
+      <fieldset class="card question-card">
+        <legend><strong>Q{{ q.index }}:</strong> {{ q.question }}</legend>
+        <div class="options">
+          {% for opt in q.options %}
+            {% set idx = loop.index0 %}
+            {% set cls = '' %}
+            {% if idx==q.correct_answer %}
+              {% set cls = cls + ' correct' %}
+            {% elif idx==q.student_choice %}
+              {% set cls = cls + ' wrong' %}
+            {% endif %}
+            <div class="option{{ cls }}">
+              <span class="option-label">{{ opt }}</span>
+              {% if idx==q.correct_answer %}
+                <span class="option-mark correct-mark">✔</span>
+              {% elif idx==q.student_choice and not q.correct %}
+                <span class="option-mark wrong-mark">✖</span>
+              {% endif %}
+            </div>
+          {% endfor %}
+        </div>
+      </fieldset>
+    {% endfor %}
+
+    <div class="form-actions" style="margin-top:12px">
+      <a class="btn outline" href="{{ url_for('teacher_dashboard', room_id=room.id) }}">Back</a>
+    </div>
+  </div>
+</section>
+{% endblock %}

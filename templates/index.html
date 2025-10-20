@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container">
+    <div class="hero fade-in centered-card">
+        <h2>Welcome to Army Quiz</h2>
+        {% if user %}
+            <p>Hello, {{ user.name }} ({{ user.role }})</p>
+            <div class="form-actions">
+                <a href="{{ url_for('logout') }}" class="btn secondary">Logout</a>
+                {% if user.role == 'teacher' %}
+                    <a href="{{ url_for('create_room') }}" class="btn primary">Create Room</a>
+                {% else %}
+                    <a href="{{ url_for('join_room') }}" class="btn primary">Join Room</a>
+                {% endif %}
+            </div>
+        {% else %}
+            <div class="form-actions">
+                <a href="{{ url_for('login') }}" class="btn primary">Login</a>
+                <a href="{{ url_for('register') }}" class="btn secondary">Register</a>
+            </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

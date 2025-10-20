@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container student-dashboard">
+    <div class="fade-in">
+        <h2 class="animated-text">Welcome, {{ user.name }}!</h2>
+
+        <div class="card-container">
+            <a href="{{ url_for('join_room') }}" class="card glow-card hover-glow" data-aos="fade-up">
+                <h3>Join Room</h3>
+            </a>
+            <a href="{{ url_for('student_result', room_id=0) }}" class="card glow-card hover-glow" data-aos="fade-up" data-aos-delay="100">
+                <h3>My Results</h3>
+            </a>
+            <a href="{{ url_for('index') }}" class="card glow-card hover-glow" data-aos="fade-up" data-aos-delay="200">
+                <h3>Explore</h3>
+            </a>
+        </div>
+
+        {% if rooms %}
+        <div class="card mt-2">
+            <h3>Your Rooms</h3>
+            <div class="student-list">
+                {% for r in rooms %}
+                <div class="student-row">
+                    <div>
+                        <strong>{{ r.name }}</strong>
+                        <div class="small muted">Code: {{ r.code }}</div>
+                    </div>
+                    <div class="controls">
+                        <a href="{{ url_for('teacher_room', room_id=r.id) }}" class="btn small">Open</a>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
+
+    </div>
+</div>
+{% endblock %}
