@@ -1,8 +1,3 @@
-# ArmyQuiz requirements (tested on Python 3.11, Linux / Ubuntu 22.04+)
-# These pins are conservative choices known to work well with Flask 2.x +
-# Flask-SQLAlchemy 3.x on Python 3.11. Adjust versions if you have a
-# different environment.
-
 Flask==2.2.5
 Werkzeug==2.2.3
 Flask-SQLAlchemy==3.0.3
@@ -10,32 +5,7 @@ SQLAlchemy==2.0.22
 Jinja2==3.1.2
 itsdangerous==2.1.2
 MarkupSafe==2.1.2
-
-# Optional / useful utilities
 python-dotenv==1.0.0
-
-# Optional: HTML -> PDF generation using WeasyPrint.
-# NOTE: WeasyPrint depends on native libraries (cairo, pango, gdk-pixbuf, libffi, etc.)
-# which must be installed on the host OS before pip installing the Python package.
-#
-# Debian / Ubuntu example (Linux):
-# sudo apt update; sudo apt install -y build-essential libcairo2 libpango-1.0-0 \
-#   libgdk-pixbuf2.0-0 libffi-dev shared-mime-info libjpeg-dev libpng-dev
-#
-# Fedora / CentOS example (Linux):
-# sudo dnf install -y cairo pango gdk-pixbuf2 libffi shared-mime-info libjpeg-turbo-devel libpng-devel
-#
-# Windows notes:
-# - On Windows, the easiest approach is to install the GTK runtime (MSYS2 or GTK bundles)
-#   or use an alternative rendering approach (wkhtmltopdf or headless Chromium via Playwright).
-# - If you want to try WeasyPrint on Windows, install GTK/cairo dependencies via MSYS2
-#   or rely on a prebuilt distribution. See WeasyPrint docs for Windows specifics.
-#
-# If you have the native deps installed, uncomment the package below and install via pip.
 WeasyPrint==59.0
-
-# Production WSGI server (optional on Linux hosts)
 gunicorn==21.2.0
-
-# End of requirements
-psycopg-binary==2.9.7
+psycopg2-binary==2.9.7
